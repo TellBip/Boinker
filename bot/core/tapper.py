@@ -919,7 +919,7 @@ class Tapper:
             http_client.proxies = proxys
 
         self.access_token_created_time = 0
-        self.token_live_time = random.randint(3000, 3600)
+        self.token_live_time = random.randint(4000, 4600)
         tries_to_login = 3
 
         while True:
@@ -944,7 +944,7 @@ class Tapper:
                     http_client.headers['Authorization'] = f"{access_token}"
 
                     self.access_token_created_time = time()
-                    self.token_live_time = random.randint(500, 900)
+                    self.token_live_time = random.randint(1500, 1900)
 
 
                     login_need = False
@@ -1071,7 +1071,8 @@ class Tapper:
 
             except Exception as error:
                 self.error(f"😢 Unknown error: <light-yellow>{error}</light-yellow>")
-                await asyncio.sleep(delay=120)
+                logger.warning(f"<light-yellow>{self.session_name}</light-yellow> | 💤 sleep 10 minutes 💤")
+                await asyncio.sleep(delay=600)
 
 async def run_tapper(tg_client: Client, proxy: str | None):
     try:
