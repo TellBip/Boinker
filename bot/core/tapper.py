@@ -510,7 +510,7 @@ class Tapper:
                 url_quit = 'https://boink.boinkers.co/api/play/quitAndCollect?p=android'
                 res = await http_client.post(url_quit,json={})
 
-                if res.status == 200:
+                if res.status_code == 200:
                     self.success(f"You win in elevator | <magenta>Level</magenta> - <light-green>{completed_level}</light-green>")
                 else:
                     self.warning(f"You lose in elevator | <magenta>Level</magenta> - <yellow>{completed_level}</yellow>")
