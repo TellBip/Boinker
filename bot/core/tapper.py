@@ -926,7 +926,7 @@ class Tapper:
             http_client.proxies = proxys
 
         self.access_token_created_time = 0
-        self.token_live_time = random.randint(3000, 3600)
+        self.token_live_time = random.randint(4000, 4600)
         
         tries_to_login = 3
 
@@ -955,7 +955,7 @@ class Tapper:
                     http_client.headers['Authorization'] = f"{access_token}"
 
                     self.access_token_created_time = time()
-                    self.token_live_time = random.randint(500, 900)
+                    self.token_live_time = random.randint(1500, 1900)
                     
 
 
