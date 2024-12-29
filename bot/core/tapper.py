@@ -369,7 +369,7 @@ class Tapper:
                         if 'prizeTypeName' in resp_json.get('prize', {}):
                             prize_type = resp_json['prize']['prizeTypeName']
                             prize_value = resp_json['prize'].get('prizeValue', 0)
-                            self.info(
+                            self.success(
                                 f"Spin prize: <light-blue>{prize_type}</light-blue> - "
                                 f"<light-green>{prize_value}</light-green>"
                             )
@@ -972,7 +972,7 @@ class Tapper:
                 live_op , hash = await self.get_liveOpId(http_client)
                 
                 self.info(f"Hash - {hash}")
-                if hash != '-1730856111':
+                if hash != '2112323991':
                     self.warning(f"Please STOP - NEED UPDATE")
                     break
                 await asyncio.sleep(delay=2)
