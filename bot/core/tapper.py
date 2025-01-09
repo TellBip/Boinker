@@ -972,7 +972,7 @@ class Tapper:
                 live_op , hash = await self.get_liveOpId(http_client)
                 
                 self.info(f"Hash - {hash}")
-                if hash != '-429365416':
+                if hash != '366246163':
                     self.warning(f"Please STOP - NEED UPDATE")
                     break
                 await asyncio.sleep(delay=2)
