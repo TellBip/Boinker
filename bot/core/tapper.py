@@ -974,7 +974,7 @@ class Tapper:
                 self.info(f"Hash - {hash}")
                 if hash != '-1326987291':
                     self.warning(f"Please STOP - NEED UPDATE")
-                    break
+                    #break
                 await asyncio.sleep(delay=2)
                 user_info = await self.get_user_info(http_client)
                 await asyncio.sleep(delay=2)
