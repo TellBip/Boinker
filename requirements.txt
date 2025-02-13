@@ -39,3 +39,4 @@ yarl==1.18.3
 zope.interface==7.2
 tgcrypto==1.2.5
 aiohttp-proxy==0.1.1
+TeleBot
