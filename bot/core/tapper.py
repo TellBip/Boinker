@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 from dateutil import parser
 from time import time
 from urllib.parse import unquote
+from bot.core.telegram import send_message_success
 
 import json
 import re
@@ -65,6 +66,10 @@ class Tapper:
             return is_timeout_error
         except Exception as e:
             return False
+
+    # Функция для преобразования строки timestamp в объект datetime
+    def parse_timestamp(self,timestamp_str):
+        return datetime.strptime(timestamp_str, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
 
     def check_error(self, error, message):
         try:
@@ -315,6 +320,40 @@ class Tapper:
 
         return False
 
+    async def claim_shield(self, http_client):
+        url = 'https://boink.boinkers.co/api/boinkers/chargeShield?p=android'
+        json_data = {
+	        "optionNumber": 1
+                    }
+
+        for retry_count in range(settings.MAX_RETRIES):
+            try:
+                response = await http_client.post(url, json=json_data)
+                if response is None:
+                    self.error("Received None response while claiming booster.")
+                    return False
+
+                if response.status_code == 404:
+                    logger.error(f"<light-yellow>{self.session_name}</light-yellow> | Failed to claim booster")
+                    return False
+
+                response.raise_for_status()
+
+                if response.status_code == 200:
+                    return True
+                else:
+                    self.error(f"Failed to claim booster. Server responded with status: {response.status_code}")
+                    return False
+
+            except Exception as e:
+                self.error(f"Error during claim booster attempt {retry_count + 1}: {e}")
+                if retry_count == settings.MAX_RETRIES - 1:
+                    self.error(f"Max retries reached. Failed to claim booster.")
+                await asyncio.sleep(delay=random.randint(5, 10))
+                continue
+
+        return False
+
     async def spin_wheel_fortune(self, http_client, live_op):
         url = f"https://boink.boinkers.co/api/play/spinWheelOfFortune/1?p=android"
         json_data = {
@@ -433,7 +472,7 @@ class Tapper:
                         if 'wheel' not in liveOpName.lower() and eventType == 'orderedGrid':
                             _id = obj.get('_id')
                             if _id:
-                                for x in range(3):
+                                for x in range(3): #lvl 3
                                     try:
                                         url_event = f"https://boink.boinkers.co/api/liveOps/dynamic/{_id}/{x}?p=android"
                                         await asyncio.sleep(delay=2)
@@ -970,11 +1009,12 @@ class Tapper:
             try:
                 await asyncio.sleep(delay=2)
                 live_op , hash = await self.get_liveOpId(http_client)
-                
-                self.info(f"Hash - {hash}")
-                if hash != '-1326987291':
-                    self.warning(f"Please STOP - NEED UPDATE")
-                    #break
+
+                if settings.CHECK_API:
+                    self.info(f"Hash - {hash}")
+                    if hash != '599860208':
+                        self.warning(f"Please STOP - NEED UPDATE")
+                        break
                 await asyncio.sleep(delay=2)
                 user_info = await self.get_user_info(http_client)
                 await asyncio.sleep(delay=2)
@@ -988,7 +1028,27 @@ class Tapper:
                     if 'currencyCrypto' in user_info:
                         logger.info(f"<light-yellow>{self.session_name}</light-yellow> | Shit Balance: 💩 <cyan>{'{:,.3f}'.format(user_info['currencyCrypto'])}</cyan> 💩")
 
+
                     current_time = datetime.now(timezone.utc)
+
+                    for message in user_info.get('inboxMessages', []):
+                        if message.get('title') == "You won a Raffle!":
+                            message_time = self.parse_timestamp(message.get('timestamp', ''))
+                            time_diff = current_time - message_time
+                            if time_diff <= timedelta(days=2):
+                                if settings.TELEGRAM:
+                                    send_message_success(self.session_name , f"Found message You won a Raffle!" )
+                                    break
+
+                    last_claimed_shield_str = user_info.get('rug', {}).get('shieldEndsAt')
+                    last_claimed_shield = parser.isoparse(last_claimed_shield_str) if last_claimed_shield_str else None
+                    if last_claimed_shield < current_time:
+                        await asyncio.sleep(delay=2)
+                        success = await self.claim_shield(http_client=http_client)
+                        if success:
+                            logger.success(f"<light-yellow>{self.session_name}</light-yellow> | 🛡 Claimed shield successfully 🛡")
+                            await asyncio.sleep(delay=4)
+
                     last_claimed_time_str = user_info.get('boinkers', {}).get('booster', {}).get('x2', {}).get('lastTimeFreeOptionClaimed')
                     last_claimed_time = parser.isoparse(last_claimed_time_str) if last_claimed_time_str else None
 

@@ -14,6 +14,12 @@ class Settings(BaseSettings):
     USE_REF: bool = False
     REF_ID: str = 'boink252453226'
 
+    TELEGRAM: bool = True  # Используется ли Телеграм  (True or False)
+    BOT_TOKEN:  str = ''                      # Токен Телеграм-Бота
+    CHAT_ID:  int = ''                        # Ваш chatid (@getmyid_bot)
+
+    CHECK_API: bool  = True  # Используется ли Телеграм  (True or False)
+
     USE_RANDOM_DELAY_IN_RUN: bool = True
     RANDOM_DELAY_IN_RUN: list[int] = [5, 60]
 

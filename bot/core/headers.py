@@ -27,9 +27,10 @@ def get_sec_ch_ua(user_agent):
         version = match.group(2)
 
         if browser == 'Chrome':
-            sec_ch_ua = f'"Chromium";v="{version}", "Not;A=Brand";v="24", "Google Chrome";v="{version}"'
+            #sec_ch_ua = f'"Chromium";v="{version}", "Not;A=Brand";v="8", "Google Chrome";v="{version}"'
+            sec_ch_ua =  f'"Not A(Brand";v = "8", "Chromium";v = "{version}", "Android WebView";v = "{version}"'
         else:
-            sec_ch_ua = f'"Chromium";v="{version}", "Not;A=Brand";v="24"'
+            sec_ch_ua = f'"Chromium";v="{version}", "Not;A=Brand";v="8"'
 
         return {'Sec-Ch-Ua': sec_ch_ua}
     else:
