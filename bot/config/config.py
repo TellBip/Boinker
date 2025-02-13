@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     BOT_TOKEN:  str = ''                      # Токен Телеграм-Бота
     CHAT_ID:  int = ''                        # Ваш chatid (@getmyid_bot)
 
-    CHECK_API: bool  = True  # Используется ли Телеграм  (True or False)
+    CHECK_API: bool  = True  # Проверять APi или нет
 
     USE_RANDOM_DELAY_IN_RUN: bool = True
     RANDOM_DELAY_IN_RUN: list[int] = [5, 60]
