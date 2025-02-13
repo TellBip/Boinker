@@ -67,6 +67,18 @@ class Settings(BaseSettings):
          'playTrump',
          'testJettonByProperty',
          'twitterPost2',
+         'twitterLikeShitcoinaire11',
+         'twitterLikeShitcoinaire12',
+         'twitterLikeShitcoinaire13',
+         'sghTaskLvl10',
+         'sghTaskCrop5d5',
+         'sghTaskCrop10d7',
+         'sghTaskInstall',
+         'Play7/10_1',
+         'sghTaskCrop25d20',
+         'sghTaskCrop15d7',
+         'sghTaskRevenue10',
+         'sghTaskFtd',
     ]
 
     USE_PROXY_FROM_FILE: bool = True
