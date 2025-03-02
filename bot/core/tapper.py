@@ -355,7 +355,7 @@ class Tapper:
         return False
 
     async def spin_wheel_fortune(self, http_client, live_op):
-        url = f"https://boink.boinkers.co/api/play/spinWheelOfFortune/1?p=android"
+        url = f"https://boink.boinkers.co/api/play/spinWheelOfFortune/10?p=android"
         json_data = {
             'liveOpId': live_op
         }
