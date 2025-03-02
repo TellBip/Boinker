@@ -367,10 +367,20 @@ class Tapper:
 
                 resp_json = response.json()
 
-                if response.status_code == 200 and 'prize' in resp_json and 'prizeName' in resp_json['prize']:
-                    name = resp_json['prize']['prizeName']
-                    if 'prizeTypeName' in resp_json['prize']:
-                        name = resp_json['prize']['prizeTypeName']
+                #if response.status_code == 200 and 'prize' in resp_json and 'prizeName' in resp_json['prize']:
+                if response.status_code == 200 and 'prize' in resp_json and (
+                        'prizeName' in resp_json['prize'] or 'prizeTypeName' in resp_json['prize']):
+
+                    if 'prize' in resp_json:
+                        if 'prizeName' in resp_json['prize']:
+                            name = resp_json['prize']['prizeName']
+                        elif 'prizeTypeName' in resp_json['prize']:
+                            name = resp_json['prize']['prizeTypeName']
+                        else:
+                            name = "XZ"
+                    #name = resp_json['prize']['prizeName']
+                    #if 'prizeTypeName' in resp_json['prize']:
+                        #name = resp_json['prize']['prizeTypeName']
 
                     logger.success(
                         f"<light-yellow>{self.session_name}</light-yellow> | Wheel of Fortune | Prize: <magenta>{name}</magenta> - <light-green>{resp_json['prize']['prizeValue']}</light-green>")
