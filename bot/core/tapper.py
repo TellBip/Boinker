@@ -391,7 +391,7 @@ class Tapper:
 
     async def spin_slot_machine(self, http_client, spins: int):
         url_template = "https://boink.boinkers.co/api/play/spinSlotMachine/{spin_amount}?p=android"
-        spin_amounts = [500, 150, 100, 50, 25, 10, 5, 3, 2, 1]
+        spin_amounts = [10000, 5000, 1500, 1000, 500, 150, 100, 50, 25, 10, 5, 3, 2, 1]
         remaining_spins = spins
 
         for retry_count in range(settings.MAX_RETRIES):
