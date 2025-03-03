@@ -14,7 +14,7 @@ from bot.utils.accounts import Accounts
 from bot.core.registrator import register_sessions
 
 version = "      accounts.json edition"
-start_text = """
+start_text = f"""
 
 ██████╗  ██████╗ ██╗███╗   ██╗██╗  ██╗███████╗██████╗
 ██╔══██╗██╔═══██╗██║████╗  ██║██║ ██╔╝██╔════╝██╔══██╗
@@ -28,6 +28,9 @@ Select an action:
 
     1. Run clicker 🚀
     2. Create session 👨‍🚀
+    
+<light-green>Developed by: @Tell_Bip</light-green>
+<light-green>Our Telegram channel: </light-green><light-blue>https://t.me/+1fc0or8gCHsyNGFi</light-blue>
 """
 
 global tg_clients
@@ -85,7 +88,7 @@ async def process() -> None:
     action = parser.parse_args().action
 
     if not action:
-        print(start_text)
+        logger.info(start_text)
 
         while True:
             action = input("> ")
